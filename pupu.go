@@ -46,7 +46,7 @@ func FindUniq(arr []string) []string {
 		}
 
 	}
-	newlst := make([]string, uniql)
+	newlst := make([]string, 0, uniql)
 	for line, co := range dct {
 		if co == 1 {
 			newlst = append(newlst, strings.ToUpper(line))
@@ -59,7 +59,7 @@ func FindUniq(arr []string) []string {
 func writer(arr []string) error {
 	file, err := os.Create("output.txt")
 	if err != nil {
-		return fmt.Errorf("Ошибка при создании файла %s", err)
+		return fmt.Errorf("Ошибка при создании файла %s", nil)
 	}
 	defer file.Close()
 
@@ -75,17 +75,17 @@ func writer(arr []string) error {
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Передайте корректный путь до входного файла")
+		panic(fmt.Errorf("Error: no args"))
+	}
+	sl, err := FileReader(os.Args[1])
+	if err != nil {
+		fmt.Println(err)
 		return
-	} else {
-		sl, err := FileReader(os.Args[1])
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		uni := FindUniq(sl)
-		err = writer(uni)
-		if err != nil {
-			fmt.Println(err)
-		}
+	}
+	uni := FindUniq(sl)
+	err = writer(uni)
+	if err != nil {
+		fmt.Println(err)
+
 	}
 }
