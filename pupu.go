@@ -56,7 +56,7 @@ func FindUniq(arr []string) []string {
 	return newlst
 }
 
-func writer(arr []string) error {
+func Writer(arr []string) error {
 	file, err := os.Create("output.txt")
 	if err != nil {
 		return fmt.Errorf("Ошибка при создании файла %s", nil)
