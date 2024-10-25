@@ -16,17 +16,18 @@ func FileReader(fname string) ([]string, error) {
 	if err != nil {
 		return sl, fmt.Errorf("Unable to open file: %w", nil)
 	}
-	reader := bufio.NewReader(file)
-	for {
-		line, err := reader.ReadString('\n')
-		if err == nil || err == io.EOF{
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		err := scanner.Err()
+		if err == nil || err == io.EOF {
 			if err == io.EOF {
 				break
 			} else {
 				sl = append(sl, strings.TrimRight(line, "\r\n"))
 			}
-		} else { 
-			panic(fmt.Errorf(err))
+		} else {
+			panic(fmt.Errorf("%w", err))
 		}
 	}
 	return sl, nil
@@ -83,11 +84,11 @@ func main() {
 	}
 	sl, err := FileReader(os.Args[1])
 	if err != nil {
-		panic(fmt.Errorf(err))
+		panic(fmt.Errorf("%w", err))
 	}
 	uni := FindUniq(sl)
-	err = writer(uni)
+	err = Writer(uni)
 	if err != nil {
-		panic(fmt.Errorf(err))
+		panic(fmt.Errorf("%w", err))
 	}
 }
