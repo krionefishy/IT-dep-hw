@@ -25,6 +25,8 @@ func FileReader(fname string) ([]string, error) {
 			} else {
 				sl = append(sl, strings.TrimRight(line, "\r\n"))
 			}
+		} else { 
+			panic(fmt.Errorf(err))
 		}
 	}
 	return sl, nil
