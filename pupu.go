@@ -14,7 +14,7 @@ func FileReader(fname string) ([]string, error) {
 	file, err := os.Open(fname)
 	defer file.Close()
 	if err != nil {
-		return sl, fmt.Errorf("Unable to open file: %s", nil)
+		return sl, fmt.Errorf("Unable to open file: %w", nil)
 	}
 	reader := bufio.NewReader(file)
 	for {
@@ -61,7 +61,7 @@ func FindUniq(arr []string) []string {
 func Writer(arr []string) error {
 	file, err := os.Create("output.txt")
 	if err != nil {
-		return fmt.Errorf("Ошибка при создании файла %s", nil)
+		return fmt.Errorf("Ошибка при создании файла %w", err)
 	}
 	defer file.Close()
 
@@ -81,13 +81,11 @@ func main() {
 	}
 	sl, err := FileReader(os.Args[1])
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(fmt.Errorf(err))
 	}
 	uni := FindUniq(sl)
 	err = writer(uni)
 	if err != nil {
-		fmt.Println(err)
-
+		panic(fmt.Errorf(err))
 	}
 }
