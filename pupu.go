@@ -14,18 +14,20 @@ func FileReader(fname string) ([]string, error) {
 	file, err := os.Open(fname)
 	defer file.Close()
 	if err != nil {
-		return sl, fmt.Errorf("Unable to open file: %s", err)
+		return sl, fmt.Errorf("Unable to open file: %s", nil)
 	}
 	reader := bufio.NewReader(file)
 	for {
 		line, err := reader.ReadString('\n')
-		if err == io.EOF {
-			break
-		} else {
-			sl = append(sl, strings.TrimRight(line, "\r\n"))
+		if err == nil || err == io.EOF{
+			if err == io.EOF {
+				break
+			} else {
+				sl = append(sl, strings.TrimRight(line, "\r\n"))
+			}
 		}
 	}
-	return sl, err
+	return sl, nil
 }
 
 func FindUniq(arr []string) []string {
