@@ -10,7 +10,7 @@ import (
 )
 
 func FileReader(fname string) ([]string, error) {
-	sl := make([]string, 0)
+	sl := make([]string, 0, 100)
 	file, err := os.Open(fname)
 	defer file.Close()
 	if err != nil {
