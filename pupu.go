@@ -14,7 +14,7 @@ func FileReader(fname string) ([]string, error) {
 	file, err := os.Open(fname)
 	defer file.Close()
 	if err != nil {
-		return sl, fmt.Errorf("Unable to open file: %w", nil)
+		return sl, fmt.Errorf("Unable to open file: %w", err)
 	}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
